@@ -16,9 +16,12 @@ import java.util.Map;
 @EnableAutoConfiguration
 public class BluefinHookApplication {
 
+    private static final String TEMPLATE_PATH = System.getenv("BLUEFIN_TEMPLATE_PATH");
+
     private static final Map<String, Object> configDefault = new HashMap<String, Object>() {{
         put("server.address", getLocalHostIP());
         put("server.port", getLocalHostPort());
+        put("mail.template.path", TEMPLATE_PATH);
     }};
 
     public static void main(String[] args) {
