@@ -1,0 +1,23 @@
+language: java
+jdk:
+  - oraclejdk8
+sudo: required
+services:
+- docker
+
+install: true
+script: mvn package
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: ${ACCESS_TOKEN}
+  file: target/bluefin-hook.jar
+  on:
+    tags: true
+    all_branches: true
+
+after_deploy:
+- docker build -t="saymagic/bluefin-hook:v1.0.0" .
+- docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+- docker push saymagic/bluefin-hook
